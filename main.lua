@@ -8,22 +8,22 @@ end
 local p1 = scripts.entities.planet(300, 300, 0, 30, 10, 1, 0, 0)
 local s1 = scripts.entities.star(500, 310, 0, -10, 10, 1, 0, 0)
 
-local sys = require("jam-engine/efs/construct")()
-sys:addFilter("object", { "position.x", "position.x", "weight" })
-sys:addFilter("movingObject", { "position.x", "position.x", "velocity.x", "velocity.y" })
-sys:addFilter("drawableObject", { "_object", "colour.r", "colour.g", "colour.b" })
-sys:addFilter("dynamicObject", { "_object", "position.dynamic" })
+local system = require("jam-engine/efs/construct")()
+system:addFilter("object", { "position.x", "position.x", "weight" })
+system:addFilter("movingObject", { "position.x", "position.x", "velocity.x", "velocity.y" })
+system:addFilter("drawableObject", { "_object", "colour.r", "colour.g", "colour.b" })
+system:addFilter("dynamicObject", { "_object", "position.dynamic" })
 
-sys:addEntity(p1)
-sys:addEntity(s1)
+system:addEntity(p1)
+system:addEntity(s1)
 
 function love.update(dt)
-    for _, v in ipairs(sys.filteredEntitiesAsLists["movingObject"]) do
+    for _, v in ipairs(system.filteredEntitiesAsLists["movingObject"]) do
         v.position.x = v.position.x + v.velocity.x * dt
         v.position.y = v.position.y + v.velocity.y * dt
     end
-    for _, v in ipairs(sys.filteredEntitiesAsLists["dynamicObject"]) do
-        for _, w in ipairs(sys.filteredEntitiesAsLists["object"]) do
+    for _, v in ipairs(system.filteredEntitiesAsLists["dynamicObject"]) do
+        for _, w in ipairs(system.filteredEntitiesAsLists["object"]) do
             if v ~= w then
                 local grav = v.weight * w.weight / 10 * dt
                 local dx = v.position.x - w.position.x
@@ -42,7 +42,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    for _, v in ipairs(sys.filteredEntitiesAsLists["drawableObject"]) do
+    for _, v in ipairs(system.filteredEntitiesAsLists["drawableObject"]) do
         love.graphics.setColor(v.colour.r, v.colour.g, v.colour.b)
         love.graphics.circle("fill", v.position.x, v.position.y, v.weight)
     end
