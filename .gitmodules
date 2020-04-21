@@ -1,0 +1,3 @@
+[submodule "jam-engine"]
+	path = jam-engine
+	url = https://github.com/nanderv/jam-engine.git
